@@ -1,0 +1,38 @@
+<h2 class="main-title text-center">Picterest</h2>
+
+<form id="login-form" ng-submit="login()">
+
+    <div class="row">
+        <div class="col-xs-11 col-sm-6 col-md-4 col-centered">
+
+            <div class="form-group">
+                <input ng-model="user.email" class="form-input inline-block" minlength="7" maxlength="60" type="email" name="email" placeholder="Email"
+                    required/>
+            </div>
+
+            <div class="form-group">
+                <input ng-model="user.password" class="form-input inline-block" minlength="8" maxlength="30" type="password" name="password"
+                    placeholder="Password" required/>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-md btn-success">Login</button>
+            </div>
+
+        </div>
+    </div>
+
+</form>
+
+
+
+<div class="row" style="margin-top:5%">
+    <div class="col-md-6 col-centered">
+        <h2 class="niconne-font white">User Stories: </h2>
+        <ul id="user-stories">
+            <li>Anyone can see all the pics on public wall or can see individual user's pics wall</li>
+            <li>Only registered users can post a photo by adding its link or can delete a photo </li>
+            <li>Only registered users can like a pic on public wall or any other user's pic wall</li>
+        </ul>
+    </div>
+</div>

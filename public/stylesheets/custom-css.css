@@ -1,0 +1,319 @@
+@import 'https://fonts.googleapis.com/css?family=Arima+Madurai';
+@import 'https://fonts.googleapis.com/css?family=Niconne';
+
+body { 
+    padding-top: 5px; 
+    background: url('/public/images/brinjal.jpg');
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-position: top center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed;
+}
+
+.navbar-collapse.collapse {
+display: block!important;
+}
+
+.navbar-nav>li, .navbar-nav {
+float: left !important;
+}
+
+
+.navbar-nav.navbar-right:last-child {
+margin-right: -15px !important;
+}
+
+.navbar-right {
+float: right!important;
+}
+
+
+.navbar-nav .navbar-brand:hover, 
+.navbar-nav .navbar-brand:focus, 
+.navbar-nav > li > a:hover, 
+.navbar-nav > li > a:focus {
+    background-color: transparent;
+    
+}
+
+.active-nav-tab{
+    background-color: #30C3C3;
+    border-radius: 8em;
+}
+
+.main-title{
+    font-family: 'Arima Madrai';
+    font-size: 4em;
+    color: white;
+}
+
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
+
+
+#login-form{
+    margin-top: 4%;
+}
+
+#signup-form{
+    margin-top: 1%;
+    margin-bottom: 2%;
+}
+
+.form-input{
+    width: 100%;
+    border-top: white;
+    border-left: white;
+    border-right: white;
+    border-bottom: 1px solid #D1D1D1;
+    font-size: 1.2em;
+    height:2em;
+    background: transparent;
+    color: white
+}
+
+input:focus, input:invalid ,form-group {
+    outline: 0;
+    box-shadow:none;
+    -moz-appearance:none;
+    -webkit-appearance:none;
+}
+
+#user-stories{
+    font-family: Niconne;
+    font-size: 1.7em;
+    color: white
+}
+
+.niconne-font{
+    font-family: Niconne
+}
+
+
+.fb-style{
+    background-color: #3b5998;
+    color: white;
+    margin: 1%;
+}
+
+.fb-style:hover{
+    color: white;
+    background-color: #1E4594;
+}
+
+.fb-style:enabled, .fb-style:active, .fb-style:visited{
+    color: white;
+}
+
+.twt-style{
+    background-color: #00aced;
+    color: white;
+    margin:1%;
+}
+
+.twt-style:hover{
+    color: white;
+    background-color: #008EC1;
+}
+
+.twt-style:enabled, .twt-style:active, .twt-style:visited{
+    color: white;
+}
+
+
+#foot{
+    margin-top:100px;
+    color: white;
+}
+
+.white {
+    color: white;
+}
+
+.black{
+    color: black;
+}
+
+.update-form{
+    margin: 5% auto;
+}
+
+/* Custom modal start */
+
+/* The Modal (background) */
+.custom-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 70px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+}
+
+.make-background-dim{
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.custom-modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.drop-in-modal{
+    -webkit-animation-name: dropIn;
+    -webkit-animation-duration: 0.5s;
+    animation-name: dropIn;
+    animation-duration: 0.5s;
+}
+
+.throw-up-modal{
+    -webkit-animation-name: throwUp;
+    -webkit-animation-duration: 0.4s;
+    animation-name: throwUp;
+    animation-duration: 0.4s;
+}
+
+/* Add Animation */
+@-webkit-keyframes dropIn {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+@keyframes dropIn {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+@-webkit-keyframes throwUp {
+    from {top:0px; opacity:1}
+    to {top:-300px; opacity:0}
+}
+
+@keyframes throwUp {
+    from {top:0px; opacity:1}
+    to {top:-300px; opacity:0}
+}
+
+/* The Close Button */
+.custom-close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.custom-close:hover,
+.custom-close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.custom-modal-header {
+    padding: 1px 16px;
+    background-color: #4F9EEC;
+    color: white;
+}
+
+.custom-modal-body {padding: 2px 16px;}
+
+#new-pic-trigger{
+    padding: .1% 0%;
+    border-radius: .5em;
+    background-color: white;
+    width: 200px;
+    cursor: pointer;
+    margin: 4% auto 2% auto;
+    color: white;
+    background-color: #33CC7F;
+}
+
+#new-pic-trigger:hover{
+    color: white;
+    background-color: #12B966;
+}
+
+#image-preview-frame{
+    width: 90%;
+    height: 15em;
+    margin: 2% auto;
+    text-align: center;
+}
+
+#add-pic-img{
+    max-width:100%; 
+    max-height:100%;
+    cursor: pointer;
+    margin: auto;
+}
+
+#add-pic-img:hover{
+    border-color: deepskyblue;
+}
+
+#addPic-form{
+    margin: 4% auto 2% auto;
+}
+/* Custom modal end */
+
+.grid {
+  margin: 0 auto;
+}
+
+.grid-item{
+    width: 200px;
+    margin: .5%;
+    display: inline-block
+}
+
+.my-pics{
+    cursor: pointer;
+}
+
+.my-pic-title{
+    overflow: hidden;
+}
+
+.likes-box{
+    width: 50%;
+    display: inline-block;
+}
+
+.pic-delete-btn-frame{
+    text-align: right;
+    float: right;
+}
+
+
+
+@media only screen and (max-device-width: 700px){
+    .grid{
+        margin: 5% auto;
+    }
+    .grid-item{
+        width: 150px;
+        margin: .5%;
+        display: inline-block;
+    }
+}
+
+.mainalert{
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.alert-hidden{
+    display: none;
+}

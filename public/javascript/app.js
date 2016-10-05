@@ -1,0 +1,43 @@
+angular.module('picterest', ['ui.router'])
+    .config(function ($locationProvider, $urlRouterProvider, $stateProvider, $httpProvider) {
+        $locationProvider.html5Mode(true);
+        $urlRouterProvider.otherwise('/');
+        $stateProvider
+            .state('home', {
+                url: '/',
+                templateUrl: '/public/templates/home.html',
+                controller: 'LoginCtrl'
+            })
+            .state('signup', {
+                url: '/signup',
+                templateUrl: '/public/templates/signup.html',
+                controller: 'SignUpCtrl'
+            })
+            .state('mywall', {
+                url: '/mywall',
+                templateUrl: '/public/templates/mywall.html',
+                controller: 'MyWallCtrl'
+            })
+            .state('settings', {
+                url: '/settings',
+                templateUrl: '/public/templates/settings.html',
+                controller: 'SettingsCtrl'
+            })
+            .state('logout', {
+                url: '/logout',
+                template: '<h3>Logging Out</h3>',
+                controller: 'LogoutCtrl'
+            });
+
+        $httpProvider.interceptors.push('authInterceptor');
+    });
+
+
+
+
+
+
+
+
+
+

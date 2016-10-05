@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html lang="en" ng-app="picterest">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Picterest</title>
+    <base href="/">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+        crossorigin="anonymous" />
+    <!-- Font awesome css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1"
+        crossorigin="anonymous" />
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" />
+    <!--Custom css -->
+    <link rel="stylesheet" type="text/css" href="/public/stylesheets/custom-css.css" />
+</head>
+
+<body>
+
+    <nav role="navigation">
+        <div class="container">
+
+            <div>
+                <ul class="nav navbar-nav navbar-left">
+                    <li>
+                        <a style="color:white" class="navbar-brand" href="/"><i class="fa fa-camera" aria-hidden="true"></i> Picterest</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="collapse navbar-collapse">
+                <div ng-include="'/public/templates/header.html'"></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" ng-cloak>
+        
+        <div ng-include="'/public/templates/message.html'"></div>
+        <div ui-view></div>
+    </div>
+
+        <footer class="text-center" id="foot">
+            Coded by:
+            <a href="https://www.bunnyvishal.com" target="_blank" style="text-decoration:none; color:#F7F7F7">
+                Bunny Vishal
+            </a> with a lot of &nbsp; <i class="fa fa-heart" style="color:#DD0C0C" aria-hidden="true"></i>&nbsp;
+            & &nbsp;<i class="fa fa-coffee" aria-hidden="true"></i>
+        </footer>
+
+        <!-- Latest compiled and minified jQuery -->
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+            crossorigin="anonymous"></script>
+        <!-- Angular js -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+        <!-- Angular Ui Router js -->
+        <script src="//unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <!-- Masonry js 
+        <script src="https://unpkg.com/masonry-layout@4.1/dist/masonry.pkgd.min.js"></script>
+        -->
+        <!-- Imges onload javascript for monsory 
+        <script src="https://npmcdn.com/imagesloaded@4.1/imagesloaded.pkgd.js"></script>
+        -->
+        <!-- App js -->
+        <script src="/public/javascript/app.js"></script>
+        <!-- Factories.js -->
+        <script src="/public/javascript/factories.js"></script>
+        <!-- Service.js -->
+        <script src="/public/javascript/services.js"></script>
+        <!-- Controllers.js -->
+        <script src="/public/javascript/controllers.js"></script>
+        <!-- Controllers.js -->
+        <script src="/public/javascript/directives.js"></script>
+        <!-- custom.js -->
+        <script src="/public/javascript/custom-js.js"></script>
+</body>
+
+</html>

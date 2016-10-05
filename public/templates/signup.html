@@ -1,0 +1,59 @@
+<h2 class="text-center white">Sign up</h2>
+
+<form id="signup-form" name="signup" ng-submit="submit()" novalidate>
+
+    <div class="row">
+        <div class="col-xs-11 col-sm-6 col-md-4 col-centered">
+
+            <div class="form-group">
+                <input ng-model="name" pattern="^[a-zA-Z]+[a-zA-Z\s]*$" class="form-input inline-block" maxlength="60" type="text" name="name" placeholder="Full Name"
+                    required />
+            </div>
+         
+            <p class="helpb-block white" ng-show="signup.name.$dirty && signup.name.$invalid">Please enter a valid name</p>
+
+            <div class="form-group">
+                <input ng-model="email" class="form-input inline-block" ng-minlength="6" ng-maxlength="60" type="email" name="email" placeholder="Email"
+                    required />
+            </div>
+
+            <p class="helpb-block white" ng-show="signup.email.$dirty && signup.email.$invalid">Please enter a proper email</p>
+
+            <div class="form-group">
+                <input ng-model="username" pattern="^[a-z]+[1-9]*0?[1-9]*$" ng-minlength="5" class="form-input inline-block" ng-maxlength="20" type="text" title="" name="username" placeholder="Username"
+                    required />
+            </div>
+
+            <p class="helpb-block white" ng-show="signup.username.$dirty && signup.username.$invalid">Must start with small alphabets and end with number only or can contain only alphabets. Minimum 6 characters are required</p>
+
+            <div class="form-group">
+                <input ng-model="password1" class="form-input inline-block" ng-minlength="8" ng-maxlength="30" type="password" id="input-password" name="password1"
+                    placeholder="Password" required />
+            </div>
+
+            <div class="form-group">
+                <input ng-model="password2" class="form-input inline-block" ng-minlength="8" ng-maxlength="30" type="password" data-match="#input-password"
+                    validate-equals='password1' data-match-error="Passwords do not match" name="password2" placeholder="Confirm password" required/>
+            </div>
+            <p class="help-block white" ng-show="signup.password2.$dirty && signup.password2.$invalid">
+                passwords do not match.
+            </p>
+
+            <p class="help-block white" ng-if="signup.password1.$dirty && !password1.length || signup.password2.$dirty && !password2.length">
+                password must be minimum 8 characters.
+            </p>
+            
+            <div class="text-center">
+                <button type="submit" ng-disabled="signup.$invalid" style="margin-top: 2%" class="btn btn-md btn-success">Sign up</button>
+            </div>
+
+        </div>
+    </div>
+
+</form>
+
+<div class="text-center" style="margin-bottom: 50px">
+    <h4 class="white">OR</h4>
+    <button class="fb-style btn btn-md">Login with Facebook</button> &nbsp;
+    <button class="twt-style btn btn-md">Login with Twitter</button>
+</div>

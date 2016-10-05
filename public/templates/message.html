@@ -1,0 +1,7 @@
+<div class="row text-center">
+    <div class="col-md-6 col-sm-10 col-centered">
+        <div style="margin:0 auto; left:0; right:0; position: absolute;" class="alert alert-{{alert.type}} animated main-alert" ng-class="{'zoomInUp': alert.show, 'zoomOutDown': !alert.show, 'alert-hidden': !alert.hasBeenShown}">
+            <strong>{{alert.title}}</strong> {{alert.message}}
+        </div>
+    </div>
+</div>

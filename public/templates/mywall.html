@@ -1,0 +1,78 @@
+<h3 class="text-center white" style="margin-top:1.5%">Welcome </h3>
+
+<!-- Custom modal start -->
+<!-- Trigger/Open The Modal -->
+<div id="new-pic-trigger" type="button" class="text-center" ng-click="getAddNewPic()">
+    <h5>Add pic to your wall</h5>
+</div>
+
+<!-- The Modal -->
+<div id="myModal" class="custom-modal">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5 col-sm-8 col-centered">
+                <!-- Modal content -->
+                <div class="custom-modal-content drop-in-modal">
+                    <div class="custom-modal-header">
+                        <span ng-click="cancelAddNewPic()" class="custom-close" id="addPicFormCloseBtn"><i class="fa fa-times" aria-hidden="true"></i></span>
+                        <h4>Add a new pic to your wall</h4>
+                    </div>
+                    <div class="custom-modal-body">
+
+                        <div id="image-preview-frame">
+                            <img src="{{newPic.url}}" alt="Image not found &nbsp; &nbsp; &nbsp;" class="thumbnail" id="add-pic-img" />
+                        </div>
+
+                        <form ng-submit="addNewPic()" id="addPic-form">
+
+                            <div class="form-group">
+                                <input class="form-input black" id="add-pic-img-title" ng-model="newPic.title" maxlength="60" type="text" name="title" placeholder="Title for the image"
+                                    required/>
+                            </div>
+
+                            <div class="form-group">
+                                <input ng-model="newPic.url" class="form-input black" id="add-pic-img-url" maxlength="300" type="url" name="url" placeholder="Image url"
+                                    required/>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-md btn-primary">Add</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom modal end 
+
+{{#if pics}}
+    <div class="row grid">
+        {{#each pics}}
+            <div class="grid-item thumbnail" id="{{this._id}}">
+                <img src="{{this.picUrl}}" alt="image from gallery" class="my-pics" />
+                <div class="caption">
+                    <p class="text-center my-pic-title"> {{this.title}} </p>
+                    <div style="margin:-4% 0%">
+                    <div class="likes-box">
+                        <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>: {{this.likes.length}}
+                    </div>
+                    <div class="pic-delete-btn-frame">
+                        <button class="btn btn-xs btn-danger" type="button" onclick="post('/removepic', 
+                            {_csrf: '{{../csrfToken}}', id: '{{this._id}}', ownedBy: '{{this.ownedBy}}', 
+                            title: '{{this.title}}', url: '{{this.picUrl}}'}, '{{this._id}}')">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+{{/if}}
+
+-->
