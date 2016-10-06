@@ -44,6 +44,10 @@ angular.module('picterest')
         }
     }])
 
+    .controller('PublicCtrl', ['$scope', function ($scope) {
+
+    }])
+
     .controller('LoginCtrl', ['$scope', '$http', '$state', 'authToken', 'alert', function ($scope, $http, $state, authToken, alert) {
         if (authToken.getToken()) {
             $state.go('mywall');
@@ -83,8 +87,6 @@ angular.module('picterest')
             console.log("your are not logged in");
             return $state.go('home');
         } else {
-
-
             $http.get('/api/mypics')
                 .success(function (data) {
                     if (data == 'no-pics') {
@@ -92,17 +94,45 @@ angular.module('picterest')
                         alert('warning', 'You have not added any pics yet.', '', 3500);
                     } else {
                         $scope.pics = [];
+                        $scope.imagesLoaded = 0;
+                        $scope.pics.imgloaded = function(){
+                            $scope.imagesLoaded += 1;
+                        }
                         console.log(data);
                         data.forEach(function (obj) {
                             $timeout(function () {
                                 $scope.pics.push(obj);
                             }, data.indexOf(obj) * 300);
                         });
+
+                        function buildMasonry() {
+                            var $container = $('.grid').masonry();
+
+                            $container.masonry({
+                                itemSelector: '.grid-item',
+                                transitionDuration: '.7s',
+                                isAnimated: true
+                            });
+                        }
+
+                        
+
+                        $scope.$on('picsAdded', function () {
+                            $('.grid').masonry();
+                            $('.grid').masonry('reloadItems');
+                            buildMasonry();
+                            console.log($scope.imagesLoaded);
+                        });
                     }
                 })
                 .error(function (err) {
                     console.log('error');
                     console.log(err);
+                    if (err == 'Unauthorized') {
+                        authToken.removeToken();
+                        alert('danger', 'Session expired.', 'Please login again.', 3500);
+                        $state.go('home');
+                    }
                 })
 
             $scope.getAddNewPic = function () {
@@ -154,11 +184,10 @@ angular.module('picterest')
             $scope.removePic = function (id) {
                 $http.post('/api/removemypic', { id: id })
                     .success(function (msg) {
-                        console.log(msg);
                         $scope.pics.forEach(function (val) {
                             if (val._id === id) {
                                 $scope.pics.splice($scope.pics.indexOf(val), 1);
-                                alert('success', '', 'You have successfully removed a pic from your wall.',3000);
+                                alert('success', '', 'You have successfully removed a pic from your wall.', 3000);
                             }
                         })
                     })
