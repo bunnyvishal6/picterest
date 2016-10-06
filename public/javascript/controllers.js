@@ -10,7 +10,6 @@ angular.module('picterest')
         } else {
             var newUser = '';
             $scope.submit = function () {
-                console.log(newUser);
                 console.log('signup called');
                 $http.post('/api/signup/local', { name: $scope.name, email: $scope.email, username: $scope.username, password1: $scope.password1, password2: $scope.password2 })
                     .success(function (message) {
@@ -44,26 +43,26 @@ angular.module('picterest')
         }
     }])
 
-    .controller('PublicCtrl', ['$scope', '$http', '$state', '$timeout', function ($scope, $http, $state, $timeout) {
-        getAndDisplayPics($scope, $http, $state, $timeout, '/api/allpics');
-        $scope.likeAPic = function(id){
-            $http.post('/api/like', {id: id})
-                .success(function(msg){
-                    if(msg == 'success'){
-                        $scope.pics.forEach(function(pic){
-                            if(pic._id == id){
+    .controller('PublicCtrl', ['$scope', '$http', '$state', 'authToken', 'alert', '$timeout', function ($scope, $http, $state, authToken, alert, $timeout) {
+        getAndDisplayPics($scope, $http, $state, authToken, alert ,$timeout, '/api/allpics');
+        $scope.likeAPic = function (id) {
+            $http.post('/api/like', { id: id })
+                .success(function (msg) {
+                    if (msg == 'success') {
+                        $scope.pics.forEach(function (pic) {
+                            if (pic._id == id) {
                                 pic.likes.push('like');
                             }
                         });
-                    } else if(msg == 'like-removed'){
-                        $scope.pics.forEach(function(pic){
-                            if(pic._id == id){
+                    } else if (msg == 'like-removed') {
+                        $scope.pics.forEach(function (pic) {
+                            if (pic._id == id) {
                                 pic.likes.splice(0, 1);
                             }
                         });
                     }
                 })
-        }
+        };
     }])
 
     .controller('LoginCtrl', ['$scope', '$http', '$state', 'authToken', 'alert', function ($scope, $http, $state, authToken, alert) {
@@ -79,7 +78,6 @@ angular.module('picterest')
                             alert('danger', 'Oops! ', data.message);
                             return $state.go('home');
                         } else {
-                            console.log(data);
                             authToken.setToken(data.token);
                             return $state.go('mywall');
                         }
@@ -106,7 +104,7 @@ angular.module('picterest')
             return $state.go('home');
         } else {
 
-            getAndDisplayPics($scope, $http, $state, $timeout, '/api/mypics');
+            getAndDisplayPics($scope, $http, $state, authToken, alert, $timeout, '/api/mypics');
             $scope.getAddNewPic = function () {
                 $(".custom-modal").addClass("make-background-dim");
                 $("#myModal").css("display", "block");
@@ -176,35 +174,50 @@ angular.module('picterest')
             console.log("your are not logged in");
             return $state.go('home');
         } else {
-            function updateProfilePage(http, scope, url) {
+            function updateProfilePage(http, scope, state, url) {
                 http.get(url)
                     .success(function (data) {
+                        scope.name = data.name;
+                        scope.email = data.email;
+                        scope.username = data.username;
+                        if (data.profilepic) {
+                            scope.profilepic = data.profilepic;
+                        } else {
+                            scope.profilepic = 'https://i.imgur.com/GEjNHUo.png';
+                        }
                         scope.cityPlaceholder = data.city ? data.city : 'City';
                         scope.statePlaceholder = data.state ? data.state : 'State';
                         scope.countryPlaceholder = data.country ? data.country : 'Country';
                     })
                     .error(function (err) {
-                        console.log('err called');
-                        scope.cityPlaceholder = 'City';
-                        scope.statePlaceholder = 'State';
-                        scope.countryPlaceholder = 'Country';
+                        if (err == 'Unauthorized') {
+                            alert('danger', 'Session expired', '', 3500);
+                            state.go('home');
+                        } else {
+                            console.log('err called');
+                            scope.name = 'your name';
+                            scope.profilepic = 'https://i.imgur.com/GEjNHUo.png';
+                            scope.email = 'your email';
+                            scope.username = 'Your username';
+                            scope.cityPlaceholder = 'City';
+                            scope.statePlaceholder = 'State';
+                            scope.countryPlaceholder = 'Country';
+                        }
                     });
             }
 
             function profileUpdateFailed() {
-                alert('danger', '', 'Sorry your profile update failed');
+                alert('danger', '', 'Sorry your profile update failed', 3500);
                 $state.go('settings', {}, { reload: true });
             }
 
-            updateProfilePage($http, $scope, '/api/getmyprofile');
-
-            $scope.updateProfile = function () {
-                $http.post('/api/updatemyprofile', { city: $scope.city, state: $scope.state, country: $scope.country })
+            function updatemyprofile(http, state, url, obj) {
+                http.post(url, obj)
                     .success(function (msg) {
                         if (msg == 'success') {
-                            updateProfilePage($http, $scope, '/api/getmyprofile');
-                            alert('success', '', 'your profile updated successfully!');
-                            $state.go('settings', {}, { reload: true });
+                            updateProfilePage($http, $scope, $state, '/api/getmyprofile');
+                            alert('success', '', 'your profile updated successfully!', 3000);
+                            state.go('settings', {}, { reload: true });
                         } else {
                             profileUpdateFailed();
                         }
@@ -213,6 +226,33 @@ angular.module('picterest')
                         console.log(err);
                         profileUpdateFailed();
                     });
+            }
+
+            $scope.getUpdateModal = function () {
+                $(".custom-modal").addClass("make-background-dim");
+                $("#profilePicModal").css("display", "block");
+                $("#profilePicModal").removeClass('throw-up-modal');
+            };
+
+            $scope.cancelUpdateProPic = function () {
+                $(".custom-modal").removeClass("make-background-dim");
+                $("#profilePicModal").removeClass('drop-in-modal');
+                $("#profilePicModal").addClass('throw-up-modal');
+                setTimeout(function () {
+                    $("#profilePicModal").css("display", "none");
+                }, 400);
+                $("#profile-img-url").val("");
+                $("#update-pro-pic-src").attr("src", "");
+            };
+
+            updateProfilePage($http, $scope, $state, '/api/getmyprofile');
+
+            $scope.updateProfilePic = function () {
+                updatemyprofile($http, $state, '/api/updatemyprofile', { profilepic: $scope.url });
+            }
+
+            $scope.updateProfile = function () {
+                updatemyprofile($http, $state, '/api/updatemyprofile', { city: $scope.city, state: $scope.state, country: $scope.country });
             };
 
             $scope.changePassword = function () {
@@ -228,8 +268,7 @@ angular.module('picterest')
                     })
                     .error(function (err) {
                         console.log(err);
-                        alert('danger', '', 'Oops! your password update failed, try again later.', 3000);
-                        $state.go('settings', {}, { reload: true });
+                        profileUpdateFailed();
                     });
             };
         }
