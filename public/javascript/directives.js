@@ -28,16 +28,4 @@ angular.module('picterest')
                 }
             }
         };
-    })
-    
-    .directive('imageLoaded', function () {
-        return {
-            link: function (scope, element) {
-                element.on("load", function () {
-                    scope.$apply(function () {
-                        scope.imgloaded();
-                    });
-                });
-            }
-        };
     });
