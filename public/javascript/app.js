@@ -1,4 +1,4 @@
-angular.module('picterest', ['ui.router', 'wu.masonry'])
+angular.module('picterest', ['ui.router'])
     .config(function ($locationProvider, $urlRouterProvider, $stateProvider, $httpProvider) {
         $locationProvider.html5Mode(true);
         $urlRouterProvider.otherwise('/');
@@ -7,6 +7,11 @@ angular.module('picterest', ['ui.router', 'wu.masonry'])
                 url: '/',
                 templateUrl: '/public/templates/home.html',
                 controller: 'LoginCtrl'
+            })
+            .state('publicwall', {
+                url: '/publicwall',
+                templateUrl: '/public/templates/publicwall.html',
+                controller: 'PublicCtrl'
             })
             .state('signup', {
                 url: '/signup',

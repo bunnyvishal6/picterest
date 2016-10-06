@@ -10,9 +10,36 @@ angular.module('picterest')
                 }
                 ngModelCtrl.$parsers.push(validateEqual);
                 ngModelCtrl.$formatters.push(validateEqual);
-                scope.$watch(attrs.validateEquals, function(){
+                scope.$watch(attrs.validateEquals, function () {
                     ngModelCtrl.$setViewValue(ngModelCtrl.$viewValue);
                 });
             }
         };
-    });
+    })
+
+    .directive('onFinishRender', function ($timeout) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attr) {
+                if (scope.$last === true) {
+                    $timeout(function () {
+                        scope.$emit(attr.onFinishRender);
+                    });
+                }
+            }
+        };
+    })
+
+    /*
+    .directive('imageLoaded', function () {
+        return {
+            link: function (scope, element) {
+                element.on("load", function () {
+                    scope.$apply(function () {
+                        scope.imgloaded();
+                    });
+                });
+            }
+        };
+    }) */
+    ;

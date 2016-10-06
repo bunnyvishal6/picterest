@@ -53,8 +53,8 @@
 </div>
 
 
-<div class="grid" masonry='{transitionDuration: "0.5s", isAnimated: true}' >
-    <div class="grid-item masonry-brick thumbnail" ng-repeat="pic in pics track by $index">
+<div class="grid"  >
+    <div class="grid-item masonry-brick thumbnail" on-finish-render='picsAdded' ng-repeat="pic in pics track by $index">
         <img  src="{{pic.picUrl}}" alt="pic.title" class="my-pic" />
         <div class="my-pic-title text-center">{{pic.title}}</div>
         <div>
