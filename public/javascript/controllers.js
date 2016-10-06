@@ -94,8 +94,7 @@ angular.module('picterest')
                         alert('warning', 'You have not added any pics yet.', '', 3500);
                     } else {
                         $scope.pics = [];
-                        $scope.imagesLoaded = 0;
-                        $scope.pics.imgloaded = function(){
+                        $scope.pics.imgloaded = function () {
                             $scope.imagesLoaded += 1;
                         }
                         console.log(data);
@@ -115,13 +114,15 @@ angular.module('picterest')
                             });
                         }
 
-                        
+
 
                         $scope.$on('picsAdded', function () {
                             $('.grid').masonry();
-                            $('.grid').masonry('reloadItems');
-                            buildMasonry();
-                            console.log($scope.imagesLoaded);
+                            $('.grid').imagesLoaded(function () {
+                                $('.grid').masonry('reloadItems');
+                                buildMasonry();
+                            });
+
                         });
                     }
                 })
