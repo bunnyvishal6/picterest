@@ -29,8 +29,7 @@ angular.module('picterest')
             }
         };
     })
-
-    /*
+    
     .directive('imageLoaded', function () {
         return {
             link: function (scope, element) {
@@ -41,5 +40,4 @@ angular.module('picterest')
                 });
             }
         };
-    }) */
-    ;
+    });
