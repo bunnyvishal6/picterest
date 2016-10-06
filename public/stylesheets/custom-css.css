@@ -292,6 +292,12 @@ input:focus, input:invalid ,form-group {
     display: inline-block;
 }
 
+.like-btn:hover {
+    font-size: 2em;
+    cursor: pointer;
+    color: deepskyblue;
+}
+
 .pic-delete-btn-frame{
     text-align: right;
     float: right;
@@ -318,3 +324,4 @@ input:focus, input:invalid ,form-group {
 .alert-hidden{
     display: none;
 }
+

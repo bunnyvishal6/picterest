@@ -43,6 +43,46 @@ router.post('/auth/login/local', function (req, res) {
     });
 });
 
+router.get('/allpics', function (req, res) {
+    Pic.find({}, function (err, pics) {
+        if (err) {
+            return res.json('no-pics');
+        }
+        if (pics.length > 0) {
+            return res.status(200).json(pics);
+        } else {
+            return res.status(200).json('no-pics');
+        }
+    });
+});
+
+router.post('/like', passport.authenticate('jwt', {session: false}), function(req, res){
+    Pic.findOne({_id: req.body.id}, function(err, doc){
+        if(err){return res.json(err);}
+        if(doc){
+            if(doc.likes.indexOf(req.user.email) < 0){
+                doc.likes.push(req.user.email);
+                doc.save(function(err){
+                    if(err){
+                        return res.json(err);
+                    }
+                    return res.json('success');
+                });
+            } else {
+                doc.likes.splice(doc.likes.indexOf(req.user.email), 1);
+                doc.save(function(err){
+                    if(err){
+                        return res.json(err);
+                    }
+                    return res.json('like-removed');
+                })
+            }
+        } else {
+            res.json('no-pic-found');
+        }
+    })
+});
+
 router.get('/mypics', passport.authenticate('jwt', { session: false }), function (req, res) {
     Pic.find({ owner: req.user.email }, function (err, pics) {
         if (err) {
@@ -144,9 +184,9 @@ router.post('/changemypassword', passport.authenticate('jwt', { session: false }
     }
 });
 
-router.post('/removemypic', passport.authenticate('jwt', {session: false}), function(req, res){
-    Pic.findOneAndRemove({_id: req.body.id, owner: req.user.email}, function(err){
-        if(err){
+router.post('/removemypic', passport.authenticate('jwt', { session: false }), function (req, res) {
+    Pic.findOneAndRemove({ _id: req.body.id, owner: req.user.email }, function (err) {
+        if (err) {
             return res.json(err);
         }
 

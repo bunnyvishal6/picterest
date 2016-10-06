@@ -44,8 +44,26 @@ angular.module('picterest')
         }
     }])
 
-    .controller('PublicCtrl', ['$scope', function ($scope) {
-
+    .controller('PublicCtrl', ['$scope', '$http', '$state', '$timeout', function ($scope, $http, $state, $timeout) {
+        getAndDisplayPics($scope, $http, $state, $timeout, '/api/allpics');
+        $scope.likeAPic = function(id){
+            $http.post('/api/like', {id: id})
+                .success(function(msg){
+                    if(msg == 'success'){
+                        $scope.pics.forEach(function(pic){
+                            if(pic._id == id){
+                                pic.likes.push('like');
+                            }
+                        });
+                    } else if(msg == 'like-removed'){
+                        $scope.pics.forEach(function(pic){
+                            if(pic._id == id){
+                                pic.likes.splice(0, 1);
+                            }
+                        });
+                    }
+                })
+        }
     }])
 
     .controller('LoginCtrl', ['$scope', '$http', '$state', 'authToken', 'alert', function ($scope, $http, $state, authToken, alert) {
@@ -87,55 +105,8 @@ angular.module('picterest')
             console.log("your are not logged in");
             return $state.go('home');
         } else {
-            $http.get('/api/mypics')
-                .success(function (data) {
-                    if (data == 'no-pics') {
-                        console.log(data);
-                        alert('warning', 'You have not added any pics yet.', '', 3500);
-                    } else {
-                        $scope.pics = [];
-                        $scope.pics.imgloaded = function () {
-                            $scope.imagesLoaded += 1;
-                        }
-                        console.log(data);
-                        data.forEach(function (obj) {
-                            $timeout(function () {
-                                $scope.pics.push(obj);
-                            }, data.indexOf(obj) * 300);
-                        });
 
-                        function buildMasonry() {
-                            var $container = $('.grid').masonry();
-
-                            $container.masonry({
-                                itemSelector: '.grid-item',
-                                transitionDuration: '.7s',
-                                isAnimated: true
-                            });
-                        }
-
-
-
-                        $scope.$on('picsAdded', function () {
-                            $('.grid').masonry();
-                            $('.grid').imagesLoaded(function () {
-                                $('.grid').masonry('reloadItems');
-                                buildMasonry();
-                            });
-
-                        });
-                    }
-                })
-                .error(function (err) {
-                    console.log('error');
-                    console.log(err);
-                    if (err == 'Unauthorized') {
-                        authToken.removeToken();
-                        alert('danger', 'Session expired.', 'Please login again.', 3500);
-                        $state.go('home');
-                    }
-                })
-
+            getAndDisplayPics($scope, $http, $state, $timeout, '/api/mypics');
             $scope.getAddNewPic = function () {
                 $(".custom-modal").addClass("make-background-dim");
                 $("#myModal").css("display", "block");
@@ -189,6 +160,7 @@ angular.module('picterest')
                             if (val._id === id) {
                                 $scope.pics.splice($scope.pics.indexOf(val), 1);
                                 alert('success', '', 'You have successfully removed a pic from your wall.', 3000);
+
                             }
                         })
                     })

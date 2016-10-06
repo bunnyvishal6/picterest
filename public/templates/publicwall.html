@@ -1,0 +1,13 @@
+<h3 class="text-center white" style="margin-top:1.5%">Public wall </h3>
+
+<div class="grid">
+    <div class="grid-item masonry-brick thumbnail" on-finish-render='picsAdded' ng-repeat="pic in pics track by $index">
+        <img src="{{pic.picUrl}}" alt="pic.title" class="my-pic" />
+        <div class="my-pic-title text-center">{{pic.title}}</div>
+        <div style="height: 20px;">
+            <div class="likes-box">
+                <i class="fa fa-lg fa-thumbs-o-up like-btn" ng-click="likeAPic(pic._id)" aria-hidden="true"></i> : {{pic.likes.length}}
+            </div>
+        </div>
+    </div>
+</div>
