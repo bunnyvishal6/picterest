@@ -23,26 +23,49 @@
                             <img src="{{newPic.url}}" alt="Image not found &nbsp; &nbsp; &nbsp;" class="thumbnail" id="add-pic-img" />
                         </div>
 
-                        <form ng-submit="addNewPic()" id="addPic-form">
+                        <form ng-submit="addNewPic()" name="addNewPicForm" id="addPic-form" novalidate>
 
                             <div class="form-group">
-                                <input class="form-input black" id="add-pic-img-title" ng-model="newPic.title" maxlength="60" type="text" name="title" placeholder="Title for the image"
-                                    required/>
+                                <input class="form-input black" id="add-pic-img-title" ng-model="newPic.title" ng-maxlength="60" type="text" name="title"
+                                    placeholder="Title for the image" required/>
                             </div>
 
                             <div class="form-group">
-                                <input ng-model="newPic.url" class="form-input black" id="add-pic-img-url" maxlength="300" type="url" name="url" placeholder="Image url"
-                                    required/>
+                                <input ng-model="newPic.url" pattern="^https://.+$" class="form-input black" id="add-pic-img-url" ng-maxlength="300" type="url"
+                                    name="url" placeholder="Image url" required/>
                             </div>
+
+                            <p class="help-block" ng-show="addNewPicForm.url.$dirty && addNewPicForm.url.$invalid">
+                                Please enter a url that starts with https://
+                            </p>
 
                             <div class="text-center">
-                                <button type="submit" class="btn btn-md btn-primary">Add</button>
+                                <button type="submit" ng-disabled="addNewPicForm.$invalid" class="btn btn-md btn-primary">Add</button>
                             </div>
                         </form>
 
                     </div>
                 </div>
 
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="grid" masonry='{transitionDuration: "0.5s", isAnimated: true}' >
+    <div class="grid-item masonry-brick thumbnail" ng-repeat="pic in pics track by $index">
+        <img  src="{{pic.picUrl}}" alt="pic.title" class="my-pic" />
+        <div class="my-pic-title text-center">{{pic.title}}</div>
+        <div>
+            <div class="likes-box">
+                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>: {{pic.likes.length}}
+            </div>
+
+            <div class="pic-delete-btn-frame">
+                <button class="btn btn-danger btn-xs" ng-click="removePic(pic._id)">
+                    <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                </button>
             </div>
         </div>
     </div>

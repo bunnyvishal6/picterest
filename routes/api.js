@@ -142,7 +142,17 @@ router.post('/changemypassword', passport.authenticate('jwt', { session: false }
     } else {
         res.json('password do not match');
     }
-})
+});
+
+router.post('/removemypic', passport.authenticate('jwt', {session: false}), function(req, res){
+    Pic.findOneAndRemove({_id: req.body.id, owner: req.user.email}, function(err){
+        if(err){
+            return res.json(err);
+        }
+
+        res.json('success');
+    })
+});
 
 
 module.exports = router;

@@ -1,4 +1,4 @@
-angular.module('picterest', ['ui.router'])
+angular.module('picterest', ['ui.router', 'wu.masonry'])
     .config(function ($locationProvider, $urlRouterProvider, $stateProvider, $httpProvider) {
         $locationProvider.html5Mode(true);
         $urlRouterProvider.otherwise('/');
