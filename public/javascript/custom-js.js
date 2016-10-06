@@ -1,4 +1,4 @@
-function getAndDisplayPics(scope, http, state, timeout, url) {
+function getAndDisplayPics(scope, http, state, authToken, alert, timeout, url) {
     http.get(url)
         .success(function (data) {
             if (data == 'no-pics') {
@@ -9,7 +9,6 @@ function getAndDisplayPics(scope, http, state, timeout, url) {
                 scope.pics.imgloaded = function () {
                     scope.imagesLoaded += 1;
                 }
-                console.log(data);
                 data.forEach(function (obj) {
                     timeout(function () {
                         scope.pics.push(obj);

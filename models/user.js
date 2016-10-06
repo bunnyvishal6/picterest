@@ -28,6 +28,9 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    profilepic: {
+        type: String
+    },
     city: String,
     state: String,
     country: String,

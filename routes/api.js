@@ -56,22 +56,22 @@ router.get('/allpics', function (req, res) {
     });
 });
 
-router.post('/like', passport.authenticate('jwt', {session: false}), function(req, res){
-    Pic.findOne({_id: req.body.id}, function(err, doc){
-        if(err){return res.json(err);}
-        if(doc){
-            if(doc.likes.indexOf(req.user.email) < 0){
+router.post('/like', passport.authenticate('jwt', { session: false }), function (req, res) {
+    Pic.findOne({ _id: req.body.id }, function (err, doc) {
+        if (err) { return res.json(err); }
+        if (doc) {
+            if (doc.likes.indexOf(req.user.email) < 0) {
                 doc.likes.push(req.user.email);
-                doc.save(function(err){
-                    if(err){
+                doc.save(function (err) {
+                    if (err) {
                         return res.json(err);
                     }
                     return res.json('success');
                 });
             } else {
                 doc.likes.splice(doc.likes.indexOf(req.user.email), 1);
-                doc.save(function(err){
-                    if(err){
+                doc.save(function (err) {
+                    if (err) {
                         return res.json(err);
                     }
                     return res.json('like-removed');
@@ -97,19 +97,24 @@ router.get('/mypics', passport.authenticate('jwt', { session: false }), function
 });
 
 router.post('/addpic', passport.authenticate('jwt', { session: false }), function (req, res) {
-    var newPic = new Pic({
-        owner: req.user.email,
-        title: req.body.title,
-        picUrl: req.body.url,
-        likes: []
-    });
-    newPic.save(function (err) {
-        if (err) {
-            console.log(err);
-            return res.json(err);
-        }
-        res.json("success");
-    });
+    var reg = new RegExp('^https://(?:[a-z0-9\-]+\.)+[a-z]{2,6}(?:/[^/#?]+)+\.(?:jpg|jpeg|gif|png)$');
+    if (reg.test(req.body.url)) {
+        var newPic = new Pic({
+            owner: req.user.email,
+            title: req.body.title,
+            picUrl: req.body.url,
+            likes: []
+        });
+        newPic.save(function (err) {
+            if (err) {
+                console.log(err);
+                return res.json(err);
+            }
+            res.json("success");
+        });
+    } else {
+        res.json('Your url does not end with jpg or png or gif');
+    }
 });
 
 router.get('/getmyprofile', passport.authenticate('jwt', { session: false }), function (req, res) {
@@ -119,7 +124,7 @@ router.get('/getmyprofile', passport.authenticate('jwt', { session: false }), fu
                 return res.json(err);
             }
             if (doc) {
-                return res.json({ city: doc.city, state: doc.state, country: doc.country });
+                return res.json({ name: doc.name, profilepic:doc.profilepic, username: doc.username, email: doc.email, city: doc.city, state: doc.state, country: doc.country });
             }
             return res.json("No user found");
         });
@@ -133,12 +138,17 @@ router.post('/updatemyprofile', passport.authenticate('jwt', { session: false })
                 return res.json(err);
             }
             if (doc) {
-                doc.city = req.body.city;
+                if(req.body.city){
+                    doc.city = req.body.city;
+                }
                 if (req.body.state) {
                     doc.state = req.body.state;
                 }
                 if (req.body.country) {
                     doc.country = req.body.country;
+                }
+                if(req.body.profilepic){
+                    doc.profilepic = req.body.profilepic;
                 }
                 doc.save(function (err) {
                     if (err) {

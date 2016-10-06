@@ -245,14 +245,14 @@ input:focus, input:invalid ,form-group {
     background-color: #12B966;
 }
 
-#image-preview-frame{
+.image-preview-frame{
     width: 90%;
     height: 15em;
     margin: 2% auto;
     text-align: center;
 }
 
-#add-pic-img{
+.preview-pic-img{
     max-width:100%; 
     max-height:100%;
     cursor: pointer;
@@ -323,5 +323,17 @@ input:focus, input:invalid ,form-group {
 
 .alert-hidden{
     display: none;
+}
+
+#profile-pic-frame{
+    height: 130px;
+    width: 130px;
+    border-radius: 5px;
+    margin: auto;
+}
+
+#profile-pic-frame:hover{
+    cursor: pointer;
+    border: 3px solid white;
 }
 
