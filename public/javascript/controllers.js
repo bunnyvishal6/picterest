@@ -78,27 +78,31 @@ angular.module('picterest')
         }
     }])
 
-    .controller('MyWallCtrl', ['$scope', '$http', '$state', 'authToken', 'alert', function ($scope, $http, $state, authToken, alert) {
+    .controller('MyWallCtrl', ['$scope', '$timeout', '$http', '$state', 'authToken', 'alert', function ($scope, $timeout, $http, $state, authToken, alert) {
         if (!authToken.getToken()) {
             console.log("your are not logged in");
             return $state.go('home');
         } else {
+
+
             $http.get('/api/mypics')
                 .success(function (data) {
                     if (data == 'no-pics') {
                         console.log(data);
                         alert('warning', 'You have not added any pics yet.', '', 3500);
                     } else {
-                        console.log('success');
+                        $scope.pics = [];
                         console.log(data);
+                        data.forEach(function (obj) {
+                            $timeout(function () {
+                                $scope.pics.push(obj);
+                            }, data.indexOf(obj) * 300);
+                        });
                     }
                 })
                 .error(function (err) {
                     console.log('error');
                     console.log(err);
-                    authToken.removeToken();
-                    alert('danger', 'Something bad happened. Please try again', '', 3500);
-                    return $state.go('home');
                 })
 
             $scope.getAddNewPic = function () {
@@ -125,10 +129,9 @@ angular.module('picterest')
                     .success(function (msg) {
                         if (msg == 'success') {
                             $scope.cancelAddNewPic();
-                            console.log(msg);
                             $http.get('/api/mypics')
                                 .success(function (data) {
-                                    console.log(data);
+                                    $scope.pics.push(data[data.length - 1]);
                                     alert('success', 'Ohoo! ', 'Your new pic added successfully to your wall', 4000);
                                 })
                                 .error(function (err) {
@@ -146,6 +149,22 @@ angular.module('picterest')
                         alert('danger', 'Oops! ', 'Something bad happened, please try again');
                         $state.go('mywall');
                     });
+            }
+
+            $scope.removePic = function (id) {
+                $http.post('/api/removemypic', { id: id })
+                    .success(function (msg) {
+                        console.log(msg);
+                        $scope.pics.forEach(function (val) {
+                            if (val._id === id) {
+                                $scope.pics.splice($scope.pics.indexOf(val), 1);
+                                alert('success', '', 'You have successfully removed a pic from your wall.',3000);
+                            }
+                        })
+                    })
+                    .error(function (err) {
+                        console.log(err);
+                    })
             }
         }
     }])
@@ -205,7 +224,7 @@ angular.module('picterest')
                             $state.go('settings', {}, { reload: true });
                         }
                     })
-                    .error(function(err){
+                    .error(function (err) {
                         console.log(err);
                         alert('danger', '', 'Oops! your password update failed, try again later.', 3000);
                         $state.go('settings', {}, { reload: true });

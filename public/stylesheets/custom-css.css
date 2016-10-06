@@ -269,7 +269,7 @@ input:focus, input:invalid ,form-group {
 /* Custom modal end */
 
 .grid {
-  margin: 0 auto;
+  margin: 5% auto;
 }
 
 .grid-item{
@@ -278,12 +278,13 @@ input:focus, input:invalid ,form-group {
     display: inline-block
 }
 
-.my-pics{
+.my-pic{
     cursor: pointer;
 }
 
 .my-pic-title{
     overflow: hidden;
+    margin-top: 1%;
 }
 
 .likes-box{
