@@ -259,6 +259,10 @@ input:focus, input:invalid ,form-group {
     margin: auto;
 }
 
+.preview-pic-img:hover{
+    border-color: deepskyblue;
+}
+
 #add-pic-img:hover{
     border-color: deepskyblue;
 }
@@ -288,7 +292,7 @@ input:focus, input:invalid ,form-group {
 }
 
 .likes-box{
-    width: 50%;
+    width: 40%;
     display: inline-block;
 }
 
@@ -303,7 +307,13 @@ input:focus, input:invalid ,form-group {
     float: right;
 }
 
-
+.owner-username{
+    width:60%; 
+    max-height: 20px; 
+    overflow:hidden; 
+    float:right; 
+    cursor: pointer;
+}
 
 @media only screen and (max-device-width: 700px){
     .grid{
@@ -325,14 +335,14 @@ input:focus, input:invalid ,form-group {
     display: none;
 }
 
-#profile-pic-frame{
+.profile-pic-frame{
     height: 130px;
     width: 130px;
     border-radius: 5px;
     margin: auto;
 }
 
-#profile-pic-frame:hover{
+.profile-pic-frame:hover{
     cursor: pointer;
     border: 3px solid white;
 }

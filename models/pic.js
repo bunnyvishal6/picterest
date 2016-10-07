@@ -9,6 +9,10 @@ const PicSchema = new Schema({
         type: String,
         required: true
     },
+    ownerUsername: {
+        type: String,
+        required: true
+    },
     title: {
         type: String,
         required: true

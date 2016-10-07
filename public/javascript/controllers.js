@@ -44,25 +44,18 @@ angular.module('picterest')
     }])
 
     .controller('PublicCtrl', ['$scope', '$http', '$state', 'authToken', 'alert', '$timeout', function ($scope, $http, $state, authToken, alert, $timeout) {
-        getAndDisplayPics($scope, $http, $state, authToken, alert ,$timeout, '/api/allpics');
+        getAndDisplayPics($scope, $http, $state, authToken, alert, $timeout, '/api/allpics');
         $scope.likeAPic = function (id) {
-            $http.post('/api/like', { id: id })
-                .success(function (msg) {
-                    if (msg == 'success') {
-                        $scope.pics.forEach(function (pic) {
-                            if (pic._id == id) {
-                                pic.likes.push('like');
-                            }
-                        });
-                    } else if (msg == 'like-removed') {
-                        $scope.pics.forEach(function (pic) {
-                            if (pic._id == id) {
-                                pic.likes.splice(0, 1);
-                            }
-                        });
-                    }
-                })
+            likeapic($http, id, $scope, $state);
         };
+    }])
+
+    .controller('UserwallCtrl', ['$stateParams','$scope', '$state', '$http', 'authToken', 'alert', '$timeout', function($stateParams, $scope, $state, $http, authToken, alert, $timeout){
+        console.log($stateParams.username);
+        getAndDisplayPics($scope, $http, $state, authToken, alert, $timeout, '/api/users/'+ $stateParams.username);
+        $scope.likeAPic = function(id){
+            likeapic($http, id, $scope, $state);
+        }
     }])
 
     .controller('LoginCtrl', ['$scope', '$http', '$state', 'authToken', 'alert', function ($scope, $http, $state, authToken, alert) {
@@ -158,7 +151,7 @@ angular.module('picterest')
                             if (val._id === id) {
                                 $scope.pics.splice($scope.pics.indexOf(val), 1);
                                 alert('success', '', 'You have successfully removed a pic from your wall.', 3000);
-
+                                $state.go('mywall', {}, { reload: true });
                             }
                         })
                     })

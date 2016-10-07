@@ -20,11 +20,11 @@
             <p class="helpb-block white" ng-show="signup.email.$dirty && signup.email.$invalid">Please enter a proper email</p>
 
             <div class="form-group">
-                <input ng-model="username" pattern="^[a-z]+[1-9]*0?[1-9]*$" ng-minlength="5" class="form-input inline-block" ng-maxlength="20" type="text" title="" name="username" placeholder="Username"
+                <input ng-model="username" pattern="^[a-z]+[1-9]*0?[1-9]*$" ng-minlength="5" class="form-input inline-block" ng-maxlength="10" type="text" title="" name="username" placeholder="Username"
                     required />
             </div>
 
-            <p class="helpb-block white" ng-show="signup.username.$dirty && signup.username.$invalid">Must start with small alphabets and end with number only or can contain only alphabets. Minimum 6 characters are required</p>
+            <p class="helpb-block white" ng-show="signup.username.$dirty && signup.username.$invalid">Must start with small alphabets and end with number only or can contain only alphabets. Minimum 5 characters and maximum 10 characters.</p>
 
             <div class="form-group">
                 <input ng-model="password1" class="form-input inline-block" ng-minlength="8" ng-maxlength="30" type="password" id="input-password" name="password1"
