@@ -28,5 +28,9 @@ router.get('/publicwall', function(req, res){
     res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
+router.get('/users/:username', function(req, res){
+    res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
 // module exports
 module.exports = router;

@@ -34,7 +34,7 @@ angular.module('picterest')
             link: function (scope, element, attrs) {
                 element.bind('error', function () {
                     if (attrs.src != attrs.onErrorSrc) {
-                        attrs.$set('ng-src', attrs.onErrorSrc);
+                        attrs.$set('src', attrs.onErrorSrc);
                     }
                 });
             }

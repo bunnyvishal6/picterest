@@ -46,12 +46,12 @@ router.post('/auth/login/local', function (req, res) {
 router.get('/allpics', function (req, res) {
     Pic.find({}, function (err, pics) {
         if (err) {
-            return res.json('no-pics');
+            return res.json({message:'no-pics'});
         }
         if (pics.length > 0) {
-            return res.status(200).json(pics);
+            return res.status(200).json({message:'pics', pics:pics});
         } else {
-            return res.status(200).json('no-pics');
+            return res.status(200).json({message:'no-pics'});
         }
     });
 });
@@ -86,12 +86,12 @@ router.post('/like', passport.authenticate('jwt', { session: false }), function 
 router.get('/mypics', passport.authenticate('jwt', { session: false }), function (req, res) {
     Pic.find({ owner: req.user.email }, function (err, pics) {
         if (err) {
-            return res.json(err);
+            return res.json({message: 'no-pics'});
         }
         if (pics.length > 0) {
-            return res.status(200).json(pics);
+            return res.status(200).json({message: 'pics',pics: pics});
         } else {
-            return res.status(200).json('no-pics');
+            return res.status(200).json({message:'no-pics'});
         }
     });
 });
@@ -101,6 +101,7 @@ router.post('/addpic', passport.authenticate('jwt', { session: false }), functio
     if (reg.test(req.body.url)) {
         var newPic = new Pic({
             owner: req.user.email,
+            ownerUsername: req.user.username,
             title: req.body.title,
             picUrl: req.body.url,
             likes: []
@@ -124,7 +125,7 @@ router.get('/getmyprofile', passport.authenticate('jwt', { session: false }), fu
                 return res.json(err);
             }
             if (doc) {
-                return res.json({ name: doc.name, profilepic:doc.profilepic, username: doc.username, email: doc.email, city: doc.city, state: doc.state, country: doc.country });
+                return res.json({ name: doc.name, profilepic: doc.profilepic, username: doc.username, email: doc.email, city: doc.city, state: doc.state, country: doc.country });
             }
             return res.json("No user found");
         });
@@ -138,7 +139,7 @@ router.post('/updatemyprofile', passport.authenticate('jwt', { session: false })
                 return res.json(err);
             }
             if (doc) {
-                if(req.body.city){
+                if (req.body.city) {
                     doc.city = req.body.city;
                 }
                 if (req.body.state) {
@@ -147,7 +148,7 @@ router.post('/updatemyprofile', passport.authenticate('jwt', { session: false })
                 if (req.body.country) {
                     doc.country = req.body.country;
                 }
-                if(req.body.profilepic){
+                if (req.body.profilepic) {
                     doc.profilepic = req.body.profilepic;
                 }
                 doc.save(function (err) {
@@ -204,5 +205,22 @@ router.post('/removemypic', passport.authenticate('jwt', { session: false }), fu
     })
 });
 
+router.get('/users/:username', function (req, res) {
+    User.findOne({ username: req.params.username }, function (err, doc) {
+        if (err) { return res.json({message:'no-user'}); }
+        if (doc) {
+            Pic.find({ ownerUsername: req.params.username }, function (err, pics) {
+                if (err) { return res.json(err); }
+                if (pics.length > 0) {
+                    return res.json({ message: 'pics', pics: pics, user: { username: doc.username, profilepic: doc.profilepic, city: doc.city, state: doc.state, country: doc.country } });
+                } else {
+                    return res.json({message: 'no-pics'});
+                }
+            });
+        } else {
+            res.json({message:'no-user'});
+        }
+    })
+})
 
 module.exports = router;

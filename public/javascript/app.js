@@ -13,6 +13,11 @@ angular.module('picterest', ['ui.router'])
                 templateUrl: '/public/templates/publicwall.html',
                 controller: 'PublicCtrl'
             })
+            .state('userwall', {
+                url: '/users/:username',
+                templateUrl: '/public/templates/userwall.html',
+                controller: 'UserwallCtrl'
+            })
             .state('signup', {
                 url: '/signup',
                 templateUrl: '/public/templates/signup.html',

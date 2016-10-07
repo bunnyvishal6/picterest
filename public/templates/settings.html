@@ -15,7 +15,7 @@
                     <div class="custom-modal-body">
 
                         <div class="image-preview-frame">
-                            <img src="{{url}}" alt="Image not found &nbsp; &nbsp; &nbsp;" class="img-rounded preview-pic-img" id="update-pro-pic-src" />
+                            <img src="{{url}}" alt="Image not found &nbsp; &nbsp; &nbsp;" class="img-rounded thumbnail preview-pic-img" id="update-pro-pic-src" />
                         </div>
 
                         <form ng-submit="updateProfilePic()" name="profilePic" novalidate>
@@ -46,7 +46,7 @@
 <div class="row" style="margin-top:1%">
     <div class="col-md-2"></div>
     <div class="col-xs-12 col-sm-6 col-md-4 text-center">
-        <div id="profile-pic-frame">
+        <div class="profile-pic-frame">
             <img src="{{profilepic}}" on-error-src='https://i.imgur.com/GEjNHUo.png' class="img img-responsive img-rounded"
                 ng-click="getUpdateModal()" alt="profile pic" />
         </div>
