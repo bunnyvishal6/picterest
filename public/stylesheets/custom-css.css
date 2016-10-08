@@ -161,6 +161,21 @@ input:focus, input:invalid ,form-group {
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
+.dim-class{
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (image) */
+.custom-image-modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 500px;
+    border: 5px solid white;
+    border-radius: 3px;
+}
+
 /* Modal Content */
 .custom-modal-content {
     position: relative;
@@ -169,6 +184,25 @@ input:focus, input:invalid ,form-group {
     padding: 0;
     border: 1px solid #888;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+#caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+    word-wrap: break-word;
+}
+
+#modal-img, #caption {
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
 }
 
 .drop-in-modal{
@@ -186,6 +220,16 @@ input:focus, input:invalid ,form-group {
 }
 
 /* Add Animation */
+@-webkit-keyframes zoom {
+    from {-webkit-transform:scale(0)}
+    to {-webkit-transform:scale(1)}
+}
+
+@keyframes zoom {
+    from {transform:scale(0)}
+    to {transform:scale(1)}
+}
+
 @-webkit-keyframes dropIn {
     from {top:-300px; opacity:0}
     to {top:0; opacity:1}
@@ -219,6 +263,30 @@ input:focus, input:invalid ,form-group {
     color: #000;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* The Close Button */
+.custom-image-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 20px;
+    transition: 0.3s;
+}
+
+.custom-image-modal-close:hover,
+.custom-image-modal-close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+    #modal-img {
+        width: 100%;
+    }
 }
 
 .custom-modal-header {
@@ -284,6 +352,7 @@ input:focus, input:invalid ,form-group {
 
 .my-pic{
     cursor: pointer;
+    transition: 0.3s;
 }
 
 .my-pic-title{

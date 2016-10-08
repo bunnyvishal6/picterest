@@ -78,3 +78,22 @@ function likeapic(http, id, scope, state) {
             }
         });
 }
+
+function showimgmodal(pic) {
+    $('#custom-image-modal').addClass('dim-class');
+    $('#custom-image-modal').css('display', 'block');
+    $('#modal-img').attr('src', pic.picUrl);
+    $('#caption > h3 > span').html(pic.title);
+    $('#caption > h4 > span').html(pic.likes.length);
+    $('#caption > h4 > a').attr('href', '/users/'+ pic.ownerUsername);
+    $('#caption > h4 > a').html(pic.ownerUsername);
+}
+
+function closeimgmodal(){
+    $("#custom-image-modal").css('display', "none");
+    $('#modal-img').attr('src', '');
+    $('#caption > h3 > span').html("");
+    $('#caption > h4 > span').html("");
+    $('#caption > h4 > a').attr('href', '');
+    $('#caption > h4 > a').html("");
+}
