@@ -1,41 +1,44 @@
 angular.module('picterest')
-
+    /* Msg controller is for alert */
     .controller('MsgCtrl', ['$scope', function ($scope) {
         $scope.getMsg = null;
     }])
 
+    /*Navigation ctrl*/
+    .controller('NavCtrl', ['$scope', '$state', 'authToken', function ($scope, $state, authToken) {
+        $scope.isAuthenticated = authToken.isAuthenticated;
+        $scope.state = function () {
+            return $state.current.name;
+        }
+    }])
+
+    /*Signup controller*/
     .controller('SignUpCtrl', ['$scope', '$http', '$state', 'authToken', 'alert', function ($scope, $http, $state, authToken, alert) {
         if (authToken.getToken()) {
             return $state.go('mywall');
         } else {
             var newUser = '';
             $scope.submit = function () {
-                console.log('signup called');
                 $http.post('/api/signup/local', { name: $scope.name, email: $scope.email, username: $scope.username, password1: $scope.password1, password2: $scope.password2 })
                     .success(function (message) {
                         switch (message) {
                             case 'Account creation success':
                                 alert('success', 'Ohoo! ', 'Your account created successfully, please login now to continue.', 3300);
-                                console.log(message);
                                 $state.go('home');
                                 break;
                             case ' email_1 dup key':
                                 alert('danger', 'Oops! ', 'An account already exists with this email.', 3300);
-                                console.log(message);
                                 break;
                             case ' username_1 dup key':
                                 alert('danger', 'Sorry! ', 'This username has been taken.', 3300);
-                                console.log(message);
                                 break;
                             default:
                                 alert('danger', 'Something bad happened. Please try again by reloading your page', '', 3500);
-                                console.log(message);
                                 $state.go('signup');
                                 break;
                         }
                     })
                     .error(function (err) {
-                        console.log(err);
                         alert('danger', 'Something bad happened. Please try again by reloading your page', '', 3500);
                         $state.go('signup');
                     });
@@ -43,6 +46,7 @@ angular.module('picterest')
         }
     }])
 
+    /*Public controller*/
     .controller('PublicCtrl', ['$scope', '$http', '$state', 'authToken', 'alert', '$timeout', function ($scope, $http, $state, authToken, alert, $timeout) {
         getAndDisplayPics($scope, $http, $state, authToken, alert, $timeout, '/api/allpics');
 
@@ -59,8 +63,8 @@ angular.module('picterest')
         };
     }])
 
+    /*Userwall controller*/
     .controller('UserwallCtrl', ['$stateParams', '$scope', '$state', '$http', 'authToken', 'alert', '$timeout', function ($stateParams, $scope, $state, $http, authToken, alert, $timeout) {
-        console.log($stateParams.username);
         getAndDisplayPics($scope, $http, $state, authToken, alert, $timeout, '/api/users/' + $stateParams.username);
 
         $scope.showCustomImgModal = function (pic) {
@@ -76,13 +80,13 @@ angular.module('picterest')
         }
     }])
 
+    /*Login controller*/
     .controller('LoginCtrl', ['$scope', '$http', '$state', 'authToken', 'alert', function ($scope, $http, $state, authToken, alert) {
         if (authToken.getToken()) {
             $state.go('mywall');
         } else {
             $scope.user = {};
             $scope.login = function () {
-                console.log('login called');
                 $http.post('/api/auth/login/local', $scope.user)
                     .success(function (data) {
                         if (data.message) {
@@ -94,7 +98,6 @@ angular.module('picterest')
                         }
                     })
                     .error(function (err) {
-                        console.log(err);
                         alert('danger', 'Something bad happened. Please try again', '', 3500);
                         return $state.go('home');
                     });
@@ -102,18 +105,14 @@ angular.module('picterest')
         }
     }])
 
-    .controller('NavCtrl', ['$scope', '$state', 'authToken', function ($scope, $state, authToken) {
-        $scope.isAuthenticated = authToken.isAuthenticated;
-        $scope.state = function () {
-            return $state.current.name;
-        }
-    }])
-
+    /*Mywall controller*/
     .controller('MyWallCtrl', ['$scope', '$timeout', '$http', '$state', 'authToken', 'alert', function ($scope, $timeout, $http, $state, authToken, alert) {
         if (!authToken.getToken()) {
-            console.log("your are not logged in");
             return $state.go('home');
         } else {
+            //Initialize pics array in scope to accept the pic to e pushed while pic added first time.
+            $scope.pics = [];
+
             getAndDisplayPics($scope, $http, $state, authToken, alert, $timeout, '/api/mypics');
 
             $scope.showCustomImgModal = function (pic) {
@@ -141,7 +140,6 @@ angular.module('picterest')
                 $("#add-pic-img-title").val("");
                 $("#add-pic-img").attr("src", "");
             };
-
             $scope.newPic = {};
             $scope.addNewPic = function () {
                 $http.post('/api/addpic', $scope.newPic)
@@ -150,12 +148,11 @@ angular.module('picterest')
                             $scope.cancelAddNewPic();
                             $http.get('/api/mypics')
                                 .success(function (data) {
-                                    $scope.pics.push(data[data.length - 1]);
+                                    $scope.pics.push(data.pics[data.pics.length - 1]);
                                     alert('success', 'Ohoo! ', 'Your new pic added successfully to your wall', 4000);
                                 })
                                 .error(function (err) {
                                     alert('danger', 'Something bad happened. Please try again', '', 3500);
-                                    console.log(err);
                                     $state.go('home');
                                 })
                         } else {
@@ -182,15 +179,14 @@ angular.module('picterest')
                         })
                     })
                     .error(function (err) {
-                        console.log(err);
                     })
             }
         }
     }])
 
+    /*settings controller*/
     .controller('SettingsCtrl', ['$scope', '$state', '$http', 'alert', 'authToken', function ($scope, $state, $http, alert, authToken) {
         if (!authToken.getToken()) {
-            console.log("your are not logged in");
             return $state.go('home');
         } else {
             function updateProfilePage(http, scope, state, url) {
@@ -213,7 +209,6 @@ angular.module('picterest')
                             alert('danger', 'Session expired', '', 3500);
                             state.go('home');
                         } else {
-                            console.log('err called');
                             scope.name = 'your name';
                             scope.profilepic = 'https://i.imgur.com/GEjNHUo.png';
                             scope.email = 'your email';
@@ -242,7 +237,6 @@ angular.module('picterest')
                         }
                     })
                     .error(function (err) {
-                        console.log(err);
                         profileUpdateFailed();
                     });
             }
@@ -286,13 +280,13 @@ angular.module('picterest')
                         }
                     })
                     .error(function (err) {
-                        console.log(err);
                         profileUpdateFailed();
                     });
             };
         }
     }])
 
+    /*Logout controller*/
     .controller('LogoutCtrl', ['authToken', '$state', 'alert', function (authToken, $state, alert) {
         authToken.removeToken();
         alert('success', 'You have logged out successfully.', ' ', 3000);

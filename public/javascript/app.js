@@ -33,6 +33,10 @@ angular.module('picterest', ['ui.router'])
                 templateUrl: '/public/templates/settings.html',
                 controller: 'SettingsCtrl'
             })
+            .state('nouser', {
+                url: '/nouser',
+                template: '<h3 class="text-center white">Oops! Sorry no user found!</h3>'
+            })
             .state('logout', {
                 url: '/logout',
                 template: '<h3>Logging Out</h3>',

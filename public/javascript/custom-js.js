@@ -1,15 +1,14 @@
+/**To get pics and serve used in mywall, publicwall and userwall controllers.*/
 function getAndDisplayPics(scope, http, state, authToken, alert, timeout, url) {
     http.get(url)
         .success(function (data) {
             if (data.message == 'no-pics') {
-                console.log(data);
                 alert('warning', 'No pic has been added yet', '', 3500);
+            } else if(data.message == 'no-user'){
+                state.go('nouser');
             } else {
                 scope.pics = [];
                 scope.currentUser = data.user;
-                /*scope.pics.imgloaded = function () {
-                    scope.imagesLoaded += 1;
-                }*/
                 data.pics.forEach(function (obj) {
                     timeout(function () {
                         scope.pics.push(obj);
@@ -28,23 +27,14 @@ function getAndDisplayPics(scope, http, state, authToken, alert, timeout, url) {
 
                 scope.$on('picsAdded', function () {
                     $('.grid').masonry();
-                    /*
-                    $('.grid').masonry('reloadItems');
-                    buildMasonry();
-                    */
-                    ///*
                     $('.grid').imagesLoaded().progress(function () {
                         $('.grid').masonry('reloadItems');
                         buildMasonry();
                     });
-                    //*/
-
                 });
             }
         })
         .error(function (err) {
-            console.log('error');
-            console.log(err);
             if (err == 'Unauthorized') {
                 authToken.removeToken();
                 alert('danger', 'Session expired.', 'Please login again.', 3500);
@@ -53,7 +43,7 @@ function getAndDisplayPics(scope, http, state, authToken, alert, timeout, url) {
         });
 }
 
-
+/**To like pic from public wall and user wall */
 function likeapic(http, id, scope, state) {
     http.post('/api/like', { id: id })
         .success(function (msg) {
@@ -79,6 +69,7 @@ function likeapic(http, id, scope, state) {
         });
 }
 
+/**open image modal on user wall, public wall and mywall */
 function showimgmodal(pic) {
     $('#custom-image-modal').addClass('dim-class');
     $('#custom-image-modal').css('display', 'block');
@@ -89,6 +80,7 @@ function showimgmodal(pic) {
     $('#caption > h4 > a').html(pic.ownerUsername);
 }
 
+/**Close image modal on user wall, public wall and mywall */
 function closeimgmodal(){
     $("#custom-image-modal").css('display', "none");
     $('#modal-img').attr('src', '');

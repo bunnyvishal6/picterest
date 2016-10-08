@@ -1,4 +1,5 @@
 angular.module('picterest')
+    /*Alert service*/
     .service('alert', ['$rootScope', '$timeout', function alert($rootScope, $timeout) {
         var alertTimeout;
         return function (type, title, message, timeout) {
