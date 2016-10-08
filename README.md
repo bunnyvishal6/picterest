@@ -1,6 +1,8 @@
 #Picterest
 ** A MEAN stack project done for FreeCodeCamp backend project **
 
+* Here is the url for preview: <https://bunny-picterest.herokuapp.com/>
+
 ## User Stories.
 
 * User Story: As an unauthenticated user, I can login manually.
