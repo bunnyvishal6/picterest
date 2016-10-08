@@ -45,15 +45,33 @@ angular.module('picterest')
 
     .controller('PublicCtrl', ['$scope', '$http', '$state', 'authToken', 'alert', '$timeout', function ($scope, $http, $state, authToken, alert, $timeout) {
         getAndDisplayPics($scope, $http, $state, authToken, alert, $timeout, '/api/allpics');
+
+        $scope.showCustomImgModal = function (pic) {
+            showimgmodal(pic);
+        };
+
+        $scope.closeCustomImgModal = function () {
+            closeimgmodal();
+        };
+
         $scope.likeAPic = function (id) {
             likeapic($http, id, $scope, $state);
         };
     }])
 
-    .controller('UserwallCtrl', ['$stateParams','$scope', '$state', '$http', 'authToken', 'alert', '$timeout', function($stateParams, $scope, $state, $http, authToken, alert, $timeout){
+    .controller('UserwallCtrl', ['$stateParams', '$scope', '$state', '$http', 'authToken', 'alert', '$timeout', function ($stateParams, $scope, $state, $http, authToken, alert, $timeout) {
         console.log($stateParams.username);
-        getAndDisplayPics($scope, $http, $state, authToken, alert, $timeout, '/api/users/'+ $stateParams.username);
-        $scope.likeAPic = function(id){
+        getAndDisplayPics($scope, $http, $state, authToken, alert, $timeout, '/api/users/' + $stateParams.username);
+
+        $scope.showCustomImgModal = function (pic) {
+            showimgmodal(pic);
+        };
+
+        $scope.closeCustomImgModal = function () {
+            closeimgmodal();
+        };
+
+        $scope.likeAPic = function (id) {
             likeapic($http, id, $scope, $state);
         }
     }])
@@ -96,8 +114,16 @@ angular.module('picterest')
             console.log("your are not logged in");
             return $state.go('home');
         } else {
-
             getAndDisplayPics($scope, $http, $state, authToken, alert, $timeout, '/api/mypics');
+
+            $scope.showCustomImgModal = function (pic) {
+                showimgmodal(pic);
+            };
+
+            $scope.closeCustomImgModal = function () {
+                closeimgmodal();
+            };
+
             $scope.getAddNewPic = function () {
                 $(".custom-modal").addClass("make-background-dim");
                 $("#myModal").css("display", "block");
