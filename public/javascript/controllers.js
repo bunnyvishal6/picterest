@@ -21,6 +21,7 @@ angular.module('picterest')
             $scope.submit = function () {
                 $http.post('/api/signup/local', { name: $scope.name, email: $scope.email, username: $scope.username, password1: $scope.password1, password2: $scope.password2 })
                     .success(function (message) {
+                        console.log(message);
                         switch (message) {
                             case 'Account creation success':
                                 alert('success', 'Ohoo! ', 'Your account created successfully, please login now to continue.', 3300);
