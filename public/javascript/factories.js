@@ -1,4 +1,5 @@
 angular.module('picterest')
+    /**authToken factory */
     .factory('authToken', ['$window', function ($window) {
         var storage = $window.localStorage;
         var cachedToken;
@@ -17,14 +18,13 @@ angular.module('picterest')
                 return !!authToken.getToken();
             },
             removeToken: function () {
-                console.log('destroyToken is called');
                 cachedToken = null;
                 storage.removeItem('userToken');
             }
         }
         return authToken;
     }])
-
+    /**Auth interceptor to push auth token to header or every request made to api */
     .factory('authInterceptor', ['authToken', function (authToken) {
         return {
             request: function (req) {

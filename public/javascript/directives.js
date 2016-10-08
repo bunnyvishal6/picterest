@@ -1,4 +1,5 @@
 angular.module('picterest')
+    /**directive for validating passwords */
     .directive('validateEquals', function () {
         return {
             require: 'ngModel',
@@ -16,7 +17,7 @@ angular.module('picterest')
             }
         };
     })
-
+    /**directive for masonry grid to load after all the images are added to the array*/
     .directive('onFinishRender', function ($timeout) {
         return {
             restrict: 'A',
@@ -29,6 +30,7 @@ angular.module('picterest')
             }
         };
     })
+    /**directive for image not available */
     .directive('onErrorSrc', function () {
         return {
             link: function (scope, element, attrs) {

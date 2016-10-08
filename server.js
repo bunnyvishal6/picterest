@@ -11,6 +11,9 @@ var config = require('./config/config');
 // getting routes
 var routes = require('./routes/index');
 var api = require('./routes/api');
+
+//mongoose promise deprecated warning fix!
+mongoose.Promise = global.Promise;
 //connect to db
 mongoose.connect(config.db);
 

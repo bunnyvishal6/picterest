@@ -33,6 +33,7 @@ router.post('/signup/local', function (req, res) {
     }
 });
 
+//local login
 router.post('/auth/login/local', function (req, res) {
     User.getAuthenticated({ email: req.body.email, password: req.body.password }, function (err, token) {
         if (err) {
@@ -43,6 +44,7 @@ router.post('/auth/login/local', function (req, res) {
     });
 });
 
+//get all pics for public wall
 router.get('/allpics', function (req, res) {
     Pic.find({}, function (err, pics) {
         if (err) {
@@ -56,6 +58,7 @@ router.get('/allpics', function (req, res) {
     });
 });
 
+//like a pic
 router.post('/like', passport.authenticate('jwt', { session: false }), function (req, res) {
     Pic.findOne({ _id: req.body.id }, function (err, doc) {
         if (err) { return res.json(err); }
@@ -83,6 +86,7 @@ router.post('/like', passport.authenticate('jwt', { session: false }), function 
     })
 });
 
+//get my pics for my wall
 router.get('/mypics', passport.authenticate('jwt', { session: false }), function (req, res) {
     Pic.find({ owner: req.user.email }, function (err, pics) {
         if (err) {
@@ -96,6 +100,7 @@ router.get('/mypics', passport.authenticate('jwt', { session: false }), function
     });
 });
 
+//To add a pic in mywall
 router.post('/addpic', passport.authenticate('jwt', { session: false }), function (req, res) {
     var reg = new RegExp('^https://(?:[a-z0-9\-]+\.)+[a-z]{2,6}(?:/[^/#?]+)+\.(?:jpg|jpeg|gif|png)$');
     if (reg.test(req.body.url)) {
@@ -108,7 +113,6 @@ router.post('/addpic', passport.authenticate('jwt', { session: false }), functio
         });
         newPic.save(function (err) {
             if (err) {
-                console.log(err);
                 return res.json(err);
             }
             res.json("success");
@@ -118,6 +122,7 @@ router.post('/addpic', passport.authenticate('jwt', { session: false }), functio
     }
 });
 
+//get profilepic for user wall
 router.get('/getmyprofile', passport.authenticate('jwt', { session: false }), function (req, res) {
     if (req.user) {
         User.findOne({ email: req.user.email }, function (err, doc) {
@@ -132,6 +137,7 @@ router.get('/getmyprofile', passport.authenticate('jwt', { session: false }), fu
     }
 });
 
+//update profile like city, state, country and profile pic
 router.post('/updatemyprofile', passport.authenticate('jwt', { session: false }), function (req, res) {
     if (req.user) {
         User.findOne({ email: req.user.email }, function (err, doc) {
@@ -164,6 +170,7 @@ router.post('/updatemyprofile', passport.authenticate('jwt', { session: false })
     }
 });
 
+//change password from settings page
 router.post('/changemypassword', passport.authenticate('jwt', { session: false }), function (req, res) {
     if (req.user) {
         User.findOne({ email: req.user.email }, function (err, doc) {
@@ -195,6 +202,7 @@ router.post('/changemypassword', passport.authenticate('jwt', { session: false }
     }
 });
 
+//remove a pic from mywall
 router.post('/removemypic', passport.authenticate('jwt', { session: false }), function (req, res) {
     Pic.findOneAndRemove({ _id: req.body.id, owner: req.user.email }, function (err) {
         if (err) {
@@ -205,6 +213,7 @@ router.post('/removemypic', passport.authenticate('jwt', { session: false }), fu
     })
 });
 
+//get user info for user wall
 router.get('/users/:username', function (req, res) {
     User.findOne({ username: req.params.username }, function (err, doc) {
         if (err) { return res.json({message:'no-user'}); }
@@ -223,4 +232,5 @@ router.get('/users/:username', function (req, res) {
     })
 })
 
+//export api router
 module.exports = router;

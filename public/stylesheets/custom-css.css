@@ -93,38 +93,6 @@ input:focus, input:invalid ,form-group {
     font-family: Niconne
 }
 
-
-.fb-style{
-    background-color: #3b5998;
-    color: white;
-    margin: 1%;
-}
-
-.fb-style:hover{
-    color: white;
-    background-color: #1E4594;
-}
-
-.fb-style:enabled, .fb-style:active, .fb-style:visited{
-    color: white;
-}
-
-.twt-style{
-    background-color: #00aced;
-    color: white;
-    margin:1%;
-}
-
-.twt-style:hover{
-    color: white;
-    background-color: #008EC1;
-}
-
-.twt-style:enabled, .twt-style:active, .twt-style:visited{
-    color: white;
-}
-
-
 #foot{
     margin-top:100px;
     color: white;
@@ -404,14 +372,14 @@ input:focus, input:invalid ,form-group {
     display: none;
 }
 
-.profile-pic-frame{
-    height: 130px;
-    width: 130px;
+.profile-pic{
     border-radius: 5px;
     margin: auto;
+    max-height:130px; 
+    max-width:130px;
 }
 
-.profile-pic-frame:hover{
+.profile-pic:hover{
     cursor: pointer;
     border: 3px solid white;
 }
