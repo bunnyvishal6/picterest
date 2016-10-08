@@ -40,6 +40,7 @@ angular.module('picterest')
                         }
                     })
                     .error(function (err) {
+                        console.log(err);
                         alert('danger', 'Something bad happened. Please try again by reloading your page', '', 3500);
                         $state.go('signup');
                     });
