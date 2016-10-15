@@ -1,7 +1,7 @@
 {
   "name": "picterest",
   "version": "1.0.0",
-  "description": "App made to learn jwt",
+  "description": "A Pinterest clone",
   "main": "server.js",
   "repository":{
     "type": "git",
