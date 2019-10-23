@@ -1,4 +1,4 @@
-var express = require('express'),
+const express = require('express'),
 app = express(),
 path = require('path'),
 bodyParser = require('body-parser'),
@@ -6,11 +6,11 @@ mongoose = require('mongoose'),
 passport = require('passport');
 
 //get the config file
-var config = require('./config/config');
+const config = require('./config/config');
 
 // getting routes
-var routes = require('./routes/index');
-var api = require('./routes/api');
+const routes = require('./routes/index');
+const api = require('./routes/api');
 
 //mongoose promise deprecated warning fix!
 mongoose.Promise = global.Promise;
@@ -31,9 +31,6 @@ app.use(function(req, res, next){
 
 //Intitialize passport
 app.use(passport.initialize());
-
-// set Static Folder
-// app.use(express.static(path.join(__dirname, 'public')));
 
 //statis files serve 
 app.use("/public", express.static(path.join(__dirname, 'public')));
